@@ -11,7 +11,6 @@ import Firebase
 import SwipeCellKit
 import Toast_Swift
 import Kingfisher
-import ViewAnimator
 import MessageUI
 
 

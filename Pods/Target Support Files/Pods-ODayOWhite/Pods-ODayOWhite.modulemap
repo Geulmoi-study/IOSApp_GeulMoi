@@ -1,0 +1,6 @@
+framework module Pods_ODayOWhite {
+  umbrella header "Pods-ODayOWhite-umbrella.h"
+
+  export *
+  module * { export * }
+}
