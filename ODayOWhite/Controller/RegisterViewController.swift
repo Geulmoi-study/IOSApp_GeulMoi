@@ -105,9 +105,8 @@ class RegisterViewController: UIViewController {
         }
         
     }
-    
-
 }
+
 extension UITextField {
     
     func addUnderLine () {
