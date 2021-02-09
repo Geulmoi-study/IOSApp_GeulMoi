@@ -11,7 +11,7 @@ import Firebase
 import SwipeCellKit
 import Toast_Swift
 import Kingfisher
-import ViewAnimator
+//import ViewAnimator
 import MessageUI
 
 
@@ -21,7 +21,6 @@ class MainViewController: UIViewController {
     @IBOutlet var bestMessage: UILabel!
     @IBOutlet var bestNickname: UILabel!
     @IBOutlet var bestLike: UILabel!
-    
     @IBOutlet var bestImageView: UIImageView!
     
     

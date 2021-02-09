@@ -58,11 +58,9 @@ class CurrentUserWriteDataViewController: UIViewController {
             }
         }
     }
-    
-
-
-
 }
+//extension 말고 클래스로 따로 뺴도 괜찮을것 같음
+
 extension CurrentUserWriteDataViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
