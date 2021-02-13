@@ -6,6 +6,8 @@
 //
 
 import Foundation
+
+//Feed는 어떤 것이고, 어떤 이유에서 class로 선언을 했을까?
 class Feed {
     let likeNum : Int
     var isFavorite : Bool  // 하트
