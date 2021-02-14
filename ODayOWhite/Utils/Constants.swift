@@ -9,6 +9,8 @@ import Foundation
 
 enum SAGUE_ID {
     static let LOGIN_TO_MAIN = "LoginToMain"
+    static let GO_TO_MAIN = "goToMain"
+    
 }
 
 enum CACHE_KEY {

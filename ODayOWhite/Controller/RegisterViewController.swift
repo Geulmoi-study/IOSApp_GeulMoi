@@ -98,7 +98,7 @@ class RegisterViewController: UIViewController {
                         }
                     }
                     UserDefaults.standard.set(email, forKey: "id")
-                    self.performSegue(withIdentifier: "goToMain", sender: self)
+                    self.performSegue(withIdentifier: SAGUE_ID.GO_TO_MAIN, sender: self)
                     
                 }
             }

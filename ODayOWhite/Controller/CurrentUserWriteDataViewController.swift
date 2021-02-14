@@ -33,6 +33,8 @@ class CurrentUserWriteDataViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     //MARK: - 접속한 사용자가 작성한 글 가져오기
+    
+    //이제 API 파일을 따로 뺴게된다면 이렇게 각 ViewController 간에 겹치는 함수명, 변수명들을 모두 변경해주어야 함.
     func loadMessages(){
         DispatchQueue.main.async {
             if let currentEmail = Auth.auth().currentUser?.email{
@@ -45,8 +47,8 @@ class CurrentUserWriteDataViewController: UIViewController {
                             if let snapshotDocuments = querySnapshot?.documents{
                                 for doc in snapshotDocuments{
                                     let data = doc.data()
-                                    let body = data["mesagee"]
-                                    let newMessage = CurrentUserMessage(body: body as! String)
+                                    guard let body = data["mesagee"] as? String else {return}
+                                    let newMessage = CurrentUserMessage(body: body)
                                     self.messages.append(newMessage)
                                     DispatchQueue.main.async {
                                         self.tableView.reloadData()
@@ -113,28 +115,15 @@ extension CurrentUserWriteDataViewController: SwipeTableViewCellDelegate{
                                             if (data["mesagee"] as! String == message.body){
                                                 doc.reference.delete()
                                                 self.view.makeToast("삭제완료")
-                                               
-                                                
                                             }
                                         }
-                   
-                    
-                                        
-                                        
                                         DispatchQueue.main.async() {
-                                         
-//
                                             self.navigationController?.popViewController(animated: true)
-                                            
                                         }
-                                            
-                                       
                                     }else{
                                         self.view.makeToast("fail")
                                         
                                     }
- 
-                                    
                                 }
                             }
                         }
