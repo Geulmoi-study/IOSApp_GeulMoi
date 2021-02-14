@@ -377,12 +377,3 @@ extension MainViewController: SwipeTableViewCellDelegate{
         return options
     }
 }
-extension MainViewController: MFMailComposeViewControllerDelegate{
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        if let _ = error {
-            controller.dismiss(animated: true)
-        }
-        
-        controller.dismiss(animated: true)
-    }
-}

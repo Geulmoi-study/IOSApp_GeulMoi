@@ -155,6 +155,7 @@ extension WriteViewController: UITextFieldDelegate{
         //getDocuments의 completion 블럭을 한번 보자면 비동기 처리되는 것이 아니라 전부 동기적으로 처리되어도 상관 없는 구조를 가지고 있기 때문.
         
         //Q) 왜 굳이 이 전체에 비동기 처리를 해준 것인가? 이 전체에 비동기 처리를 해주게 되면 잘못하면은 아래 진행되는 것들이 오류가 날 수도 있지 않나? getDocumets에서 값을 가져와서 할당해 주기 전에 아래 것이 먼저 실행되어 버리면 senderNickname.text에는 가져온 값이 들어가지 않을 수도 있는데? 흠.. 이유를 알고 싶다.
+        
         if let currentEmail = Auth.auth().currentUser?.email{
             self.db.collection("usersData").whereField("email", isEqualTo: currentEmail).getDocuments(){(querySnapshot, err) in
                 if let err = err {

@@ -24,7 +24,7 @@ class ShowSaveDataViewController: UIViewController {
         tableView.delegate = self
         tableView.register(UINib(nibName: "LikeMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "LikeMessageCell")
         
-        getMessageData() { data in
+        API.shared.getMessageData() { data in
             self.ary = data["likemessages"] as? Array<String>
             self.tableView.reloadData()
         }
@@ -32,9 +32,10 @@ class ShowSaveDataViewController: UIViewController {
         
     }
     override func viewWillAppear(_ animated: Bool) {
-        getMessageData() { data in
-            self.ary = data["likemessages"] as? Array<String>
-            self.tableView.reloadData()
+        getMessageData() { [weak self] data in
+            guard let weakSelf = self else {return}
+            weakSelf.ary = data["likemessages"] as? Array<String>
+            weakSelf.tableView.reloadData()
         }
         
     }
@@ -64,6 +65,7 @@ class ShowSaveDataViewController: UIViewController {
                             if let doc = querySnapshot!.documents.first{
                                 let data = doc.data()
                                 compeltionHandler(data)
+                                
                             }else{
                                 
                             }
