@@ -20,7 +20,6 @@ class MainViewController: UIViewController {
     @IBOutlet var bestMessage: UILabel!
     @IBOutlet var bestNickname: UILabel!
     @IBOutlet var bestLike: UILabel!
-    
     @IBOutlet var bestImageView: UIImageView!
     
     

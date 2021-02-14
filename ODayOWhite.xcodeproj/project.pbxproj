@@ -37,6 +37,9 @@
 		46F1B90725BD7BD200C0A849 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F1B90625BD7BD200C0A849 /* Feed.swift */; };
 		46F5C7BB25B9A095001CEDBF /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F5C7BA25B9A095001CEDBF /* GuideViewController.swift */; };
 		48C6FBF3B5C77D1B23A21CA9 /* Pods_ODayOWhite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F175D686EA69E8DABB0EA290 /* Pods_ODayOWhite.framework */; };
+		B658027125D258F1007AF93C /* LoginCoreClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B658027025D258F1007AF93C /* LoginCoreClass.swift */; };
+		B658027925D25DB7007AF93C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B658027825D25DB7007AF93C /* Constants.swift */; };
+		B658027E25D25FE5007AF93C /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B658027D25D25FE5007AF93C /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +76,9 @@
 		46F1B8DC25BD4B5700C0A849 /* PrivacyAgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyAgreementViewController.swift; sourceTree = "<group>"; };
 		46F1B90625BD7BD200C0A849 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		46F5C7BA25B9A095001CEDBF /* GuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
+		B658027025D258F1007AF93C /* LoginCoreClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoreClass.swift; sourceTree = "<group>"; };
+		B658027825D25DB7007AF93C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B658027D25D25FE5007AF93C /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		F175D686EA69E8DABB0EA290 /* Pods_ODayOWhite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ODayOWhite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -121,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				46A1139D25AD77E3001BAC80 /* ViewController.swift */,
+				B658027025D258F1007AF93C /* LoginCoreClass.swift */,
 				469AEE9425AD9812006A446D /* LoginViewController.swift */,
 				46DF7EB825AED553003A3D0E /* PersonalInfoViewController.swift */,
 				469AEEE325ADE0CB006A446D /* MainViewController.swift */,
@@ -169,10 +176,10 @@
 		46A1139825AD77E3001BAC80 /* ODayOWhite */ = {
 			isa = PBXGroup;
 			children = (
-				466ACF5F25B66A7D007975BE /* ODayOWhite.entitlements */,
-				460408A725AD7F4D007C618C /* Font */,
 				46A1139925AD77E3001BAC80 /* AppDelegate.swift */,
 				46A1139B25AD77E3001BAC80 /* SceneDelegate.swift */,
+				466ACF5F25B66A7D007975BE /* ODayOWhite.entitlements */,
+				B658027425D25D49007AF93C /* Utils */,
 				469AEE9725AD9837006A446D /* View */,
 				4614FE8225B47A7900860DF1 /* Controller */,
 				4614FE8125B47A6800860DF1 /* Model */,
@@ -182,6 +189,16 @@
 				46A113A725AD77E9001BAC80 /* Info.plist */,
 			);
 			path = ODayOWhite;
+			sourceTree = "<group>";
+		};
+		B658027425D25D49007AF93C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				460408A725AD7F4D007C618C /* Font */,
+				B658027825D25DB7007AF93C /* Constants.swift */,
+				B658027D25D25FE5007AF93C /* Extension.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		CD3582C727ED833D59290627 /* Pods */ = {
@@ -332,12 +349,15 @@
 				46A1139A25AD77E3001BAC80 /* AppDelegate.swift in Sources */,
 				46A1139C25AD77E3001BAC80 /* SceneDelegate.swift in Sources */,
 				46AB71E025AF143900281C32 /* Message.swift in Sources */,
+				B658027E25D25FE5007AF93C /* Extension.swift in Sources */,
 				460B69F225B58440008EEE77 /* ShowSaveDataViewController.swift in Sources */,
 				46B9ED9E25AE9CFB0024E6D4 /* WriteViewController.swift in Sources */,
 				46F1B8DA25BD492800C0A849 /* ClauseViewController.swift in Sources */,
 				466ACF8025B6767F007975BE /* CurrentUserMessage.swift in Sources */,
 				469AEEE425ADE0CB006A446D /* MainViewController.swift in Sources */,
 				46F1B8DD25BD4B5700C0A849 /* PrivacyAgreementViewController.swift in Sources */,
+				B658027125D258F1007AF93C /* LoginCoreClass.swift in Sources */,
+				B658027925D25DB7007AF93C /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,14 +509,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = TR28HNY8VK;
+				DEVELOPMENT_TEAM = 2L2K3UD2LK;
 				INFOPLIST_FILE = ODayOWhite/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dev.geeyong.writing-gather";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dev.geeyong.writing-gather.sang";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -514,14 +534,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = TR28HNY8VK;
+				DEVELOPMENT_TEAM = 2L2K3UD2LK;
 				INFOPLIST_FILE = ODayOWhite/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dev.geeyong.writing-gather";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dev.geeyong.writing-gather.sang";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

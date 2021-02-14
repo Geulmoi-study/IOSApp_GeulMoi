@@ -36,11 +36,12 @@ class GuideViewController: UIViewController {
     }
     @IBAction func onAllowBluetooth(_ sender: Any) {
         print(#function)
-        Core.shared.setIsNotNewUser()
+        LoginCoreClass.shared.setIsNotNewUser()
         dismiss(animated: true, completion: nil)
     }
     
 }
+
 extension GuideViewController: ImageSlideshowDelegate {
     
     func imageSlideshow(_ imageSlideshow: ImageSlideshow, didChangeCurrentPageTo page: Int) {
