@@ -149,9 +149,9 @@
 				46AB724D25B07C9200281C32 /* LikeMessageTableViewCell.swift */,
 				460408A325AD7E5D007C618C /* MessageCell.xib */,
 				46F1B8D925BD492800C0A849 /* ClauseViewController.swift */,
+				46A1139F25AD77E3001BAC80 /* Main.storyboard */,
 				46AB724E25B07C9200281C32 /* LikeMessageTableViewCell.xib */,
 				460408A225AD7E5D007C618C /* MessageCell.swift */,
-				46A1139F25AD77E3001BAC80 /* Main.storyboard */,
 				46F1B8DC25BD4B5700C0A849 /* PrivacyAgreementViewController.swift */,
 			);
 			path = View;
