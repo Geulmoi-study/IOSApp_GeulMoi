@@ -24,19 +24,13 @@ class ShowSaveDataViewController: UIViewController {
         tableView.delegate = self
         tableView.register(UINib(nibName: "LikeMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "LikeMessageCell")
         
-        API.shared.getMessageData() { data in
+       
+        
+        API.shared.MessageData() { data in
             self.ary = data["likemessages"] as? Array<String>
             self.tableView.reloadData()
         }
         
-        
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        getMessageData() { [weak self] data in
-            guard let weakSelf = self else {return}
-            weakSelf.ary = data["likemessages"] as? Array<String>
-            weakSelf.tableView.reloadData()
-        }
         
     }
     
@@ -49,32 +43,6 @@ class ShowSaveDataViewController: UIViewController {
                 print("loadMessage error")
             }}
     }
-    
-    //비동기 처리 후에 completion 블럭을 처리시켜서 가독성이 더 좋고, 꼭 tableView reload 뿐만이 아니라 다른 뷰들의 업로드를 시켜줄 수 있음.
-    //completionHandler로 모두 처리 시킨 후에 아예 API 파일을 따로 만들어서 함수들을 정리해주는게 훨씬 편함.
-    //앞으로 남은 것들을 completionHandler로 변경하여 API 파일로 따로 처리해주는 것이 ViewController가 heavy해 지지 않게 해주고, 더 자유롭게 사용할 수 있음
-    func getMessageData(compeltionHandler: @escaping ([String: Any]) -> Void) {
-        DispatchQueue.main.async {
-            if let currentEmail = Auth.auth().currentUser?.email{
-                self.db.collection("usersData")
-                    .whereField("email", isEqualTo: currentEmail)
-                    .getDocuments(){(querySnapshot, err) in
-                        if let err = err {
-                            print(err)
-                        }else{
-                            if let doc = querySnapshot!.documents.first{
-                                let data = doc.data()
-                                compeltionHandler(data)
-                                
-                            }else{
-                                
-                            }
-                        }
-                    }
-            }
-        }
-    }
-    
     
 }
 extension ShowSaveDataViewController: UITableViewDataSource{
@@ -100,6 +68,7 @@ extension ShowSaveDataViewController: UITableViewDataSource{
     
     
 }
+
 extension ShowSaveDataViewController: SwipeTableViewCellDelegate{
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         
@@ -120,20 +89,13 @@ extension ShowSaveDataViewController: SwipeTableViewCellDelegate{
                                 if let err = err {
                                     print(err)
                                 }else{
-                                    
                                     if let doc = querySnapshot!.documents.first{
-                                        
                                         doc.reference.updateData(["likemessages":FieldValue.arrayRemove([self.ary![indexPath.row]])])
                                         
                                         self.view.makeToast("삭제완료")
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                                             self.navigationController?.popViewController(animated: true)
                                         }
-                                        
-                                        
-                                    }else{
-                                        self.view.makeToast("fail")
-                                        
                                     }
                                     
                                 }
@@ -142,6 +104,7 @@ extension ShowSaveDataViewController: SwipeTableViewCellDelegate{
                 }
             })
             
+                
             deleteAction.title = "삭제하기"
             deleteAction.image = UIImage(systemName: "trash.fill")
             deleteAction.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
@@ -188,3 +151,4 @@ extension ShowSaveDataViewController: UITableViewDelegate{
         
     }
 }
+
