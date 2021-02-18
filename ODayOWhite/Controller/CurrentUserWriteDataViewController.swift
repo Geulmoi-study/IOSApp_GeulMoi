@@ -21,7 +21,7 @@ class CurrentUserWriteDataViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-       
+        
         
         
 
@@ -101,16 +101,32 @@ extension CurrentUserWriteDataViewController: SwipeTableViewCellDelegate{
                 
                 let deleteAction = SwipeAction(style: .default, title: nil, handler: {
                     action, indexPath in
-                    API.shared.document { (data) in
-                        for doc in data {
-                            let data = doc.data()
-                            if (data["mesagee"] as! String == message.body){
-                                doc.reference.delete()
-                                self.view.makeToast("삭제완료")
+                    DispatchQueue.main.async {
+                        if let currentEmail = Auth.auth().currentUser?.email{
+                            self.db.collection("users")
+                                .whereField("email", isEqualTo: currentEmail)
+                                .addSnapshotListener(){(querySnapshot, err) in
+                                if let err = err {
+                                    print(err)
+                                }else{
+                                   
+                                    if let snapshotDocuments = querySnapshot?.documents{
+                                        for doc in snapshotDocuments{
+                                            let data = doc.data()
+                                            if (data["mesagee"] as! String == message.body){
+                                                doc.reference.delete()
+                                                self.view.makeToast("삭제완료")
+                                            }
+                                        }
+                                        DispatchQueue.main.async() {
+                                            self.navigationController?.popViewController(animated: true)
+                                        }
+                                    }else{
+                                        self.view.makeToast("fail")
+                                        
+                                    }
+                                }
                             }
-                        }
-                        DispatchQueue.main.async() {
-                            self.navigationController?.popViewController(animated: true)
                         }
                     }
                 })
@@ -153,14 +169,3 @@ extension CurrentUserWriteDataViewController: SwipeTableViewCellDelegate{
     }
     
 }
-
-//for doc in snapshotDocuments{
-//    let data = doc.data()
-//    if (data["mesagee"] as! String == message.body){
-//        doc.reference.delete()
-//        self.view.makeToast("삭제완료")
-//    }
-//}
-//DispatchQueue.main.async() {
-//    self.navigationController?.popViewController(animated: true)
-//}

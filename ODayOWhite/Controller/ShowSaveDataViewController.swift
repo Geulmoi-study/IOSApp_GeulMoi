@@ -26,7 +26,8 @@ class ShowSaveDataViewController: UIViewController {
         
        
         
-        API.shared.MessageData() { data in
+        API.shared.MessageData() { doc in
+            let data = doc.data()
             self.ary = data["likemessages"] as? Array<String>
             self.tableView.reloadData()
         }
@@ -81,26 +82,13 @@ extension ShowSaveDataViewController: SwipeTableViewCellDelegate{
             
             let deleteAction = SwipeAction(style: .default, title: nil, handler: {
                 action, indexPath in
-                DispatchQueue.main.async {
-                    if let currentEmail = Auth.auth().currentUser?.email{
-                        self.db.collection("usersData")
-                            .whereField("email", isEqualTo: currentEmail)
-                            .getDocuments(){(querySnapshot, err) in
-                                if let err = err {
-                                    print(err)
-                                }else{
-                                    if let doc = querySnapshot!.documents.first{
-                                        doc.reference.updateData(["likemessages":FieldValue.arrayRemove([self.ary![indexPath.row]])])
-                                        
-                                        self.view.makeToast("삭제완료")
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                                            self.navigationController?.popViewController(animated: true)
-                                        }
-                                    }
-                                    
-                                }
-                            }
-                    }
+                API.shared.MessageData { (doc) in
+                    doc.reference.updateData(["likemessages":FieldValue.arrayRemove([self.ary![indexPath.row]])])
+                    
+                    self.view.makeToast("삭제완료")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                        self.navigationController?.popViewController(animated: true)
+                }
                 }
             })
             

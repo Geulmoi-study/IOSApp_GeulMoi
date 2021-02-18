@@ -22,7 +22,7 @@ class API {
     
     //일단 ShowSaveDataViewController의 getMessageData만 옮겨봄
     //함수명 swift 에서는 get 쓰지 않고 바로명사
-    func MessageData(completionHandler: @escaping ([String: Any]) -> Void) {
+    func MessageData(completionHandler: @escaping (QueryDocumentSnapshot) -> Void) {
         DispatchQueue.global().async {
             if let currentEmail = Auth.auth().currentUser?.email{
                 self.db.collection("usersData")
@@ -32,8 +32,7 @@ class API {
                             print(err)
                         }else{
                             if let doc = querySnapshot!.documents.first{
-                                let data = doc.data()
-                                completionHandler(data)
+                                completionHandler(doc)
                             }
                         }
                     }
