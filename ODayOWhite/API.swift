@@ -39,26 +39,24 @@ class API {
             }
         }
     }
-
-
-func document(completionHandler: @escaping ([QueryDocumentSnapshot]) -> Void) {
-    DispatchQueue.global().async {
-        if let currentEmail = Auth.auth().currentUser?.email{
-            self.db.collection("users")
-                .whereField("email", isEqualTo: currentEmail)
-                .addSnapshotListener(){(querySnapshot, err) in
-                if let err = err {
-                    print(err)
-                }else{
-                   
-                    if let snapshotDocuments = querySnapshot?.documents{
-                           completionHandler(snapshotDocuments)
-}
-                }
-                }
+    
+    func document(completionHandler: @escaping ([QueryDocumentSnapshot]) -> Void) {
+        DispatchQueue.global().async {
+            if let currentEmail = Auth.auth().currentUser?.email{
+                self.db.collection("users")
+                    .whereField("email", isEqualTo: currentEmail)
+                    .addSnapshotListener(){(querySnapshot, err) in
+                        if let err = err {
+                            print(err)
+                        }else{
+                            if let snapshotDocuments = querySnapshot?.documents{
+                                completionHandler(snapshotDocuments)
+                            }
+                        }
+                    }
+            }
         }
     }
-}
 }
 
 

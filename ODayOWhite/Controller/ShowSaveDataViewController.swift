@@ -18,21 +18,24 @@ class ShowSaveDataViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.rowHeight = 80.0
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(UINib(nibName: "LikeMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "LikeMessageCell")
-        
-       
-        
+       configure()
+        data()
+    }
+    
+    //MARK: Helper
+    func data() {
         API.shared.MessageData() { doc in
             let data = doc.data()
             self.ary = data["likemessages"] as? Array<String>
             self.tableView.reloadData()
         }
-        
-        
+    }
+    
+    func configure() {
+        tableView.rowHeight = 80.0
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UINib(nibName: "LikeMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "LikeMessageCell")
     }
     
     func loadMessages(){
@@ -62,24 +65,17 @@ extension ShowSaveDataViewController: UITableViewDataSource{
         cell.delegate = self
         if ary != nil {
             cell.likeMessage.text = ary![indexPath.row]
-            
         }
         return cell
     }
-    
-    
 }
 
 extension ShowSaveDataViewController: SwipeTableViewCellDelegate{
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LikeMessageCell", for: indexPath) as! LikeMessageTableViewCell
-        
         switch orientation {
-        
         case .right:
-            
+             //API class 에서 데이터 가져오기 
             let deleteAction = SwipeAction(style: .default, title: nil, handler: {
                 action, indexPath in
                 API.shared.MessageData { (doc) in
@@ -92,7 +88,6 @@ extension ShowSaveDataViewController: SwipeTableViewCellDelegate{
                 }
             })
             
-                
             deleteAction.title = "삭제하기"
             deleteAction.image = UIImage(systemName: "trash.fill")
             deleteAction.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
@@ -104,8 +99,6 @@ extension ShowSaveDataViewController: SwipeTableViewCellDelegate{
             let thumbsUpAction = SwipeAction(style: .default, title: nil, handler: {
                 action, indexPath in
                 
-                
-                
                 let activityVC = UIActivityViewController(activityItems: [self.ary![indexPath.row]], applicationActivities: nil)
                 activityVC.popoverPresentationController?.sourceView = self.view
                 self.present(activityVC, animated: true, completion: nil)
@@ -116,12 +109,10 @@ extension ShowSaveDataViewController: SwipeTableViewCellDelegate{
             thumbsUpAction.image = UIImage(systemName: "square.and.arrow.up")
             thumbsUpAction.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
             
-            
-            
             return [thumbsUpAction]
         }
-        
     }
+    
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
         options.expansionStyle = .none
@@ -134,9 +125,7 @@ extension ShowSaveDataViewController: SwipeTableViewCellDelegate{
 extension ShowSaveDataViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
         tableView.reloadData()
-        
     }
 }
 

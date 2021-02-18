@@ -16,49 +16,33 @@ class CurrentUserWriteDataViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = 80.0
-        tableView.register(UINib(nibName: "LikeMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "LikeMessageCell")
-        tableView.dataSource = self
-        tableView.delegate = self
-        
-        
-        
-        
-
-    }
-    override func viewDidAppear(_ animated: Bool) {
+        configure()
         loadMessages()
-
     }
     //MARK: - 화면이 사라질 때 이전화면으로 돌려놓기.
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.popViewController(animated: true)
     }
+
+    func configure() {
+        tableView.rowHeight = 80.0
+        tableView.register(UINib(nibName: "LikeMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "LikeMessageCell")
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
+   
     //MARK: - 접속한 사용자가 작성한 글 가져오기
-    
     //이제 API 파일을 따로 뺴게된다면 이렇게 각 ViewController 간에 겹치는 함수명, 변수명들을 모두 변경해주어야 함.
     func loadMessages(){
-        DispatchQueue.main.async {
-            if let currentEmail = Auth.auth().currentUser?.email{
-                self.db.collection("users")
-                    .whereField("email", isEqualTo: currentEmail)
-                    .addSnapshotListener(){(querySnapshot, err) in
-                        if let err = err{
-                            print(err)
-                        }else{
-                            if let snapshotDocuments = querySnapshot?.documents{
-                                for doc in snapshotDocuments{
-                                    let data = doc.data()
-                                    guard let body = data["mesagee"] as? String else {return}
-                                    let newMessage = CurrentUserMessage(body: body)
-                                    self.messages.append(newMessage)
-                                    DispatchQueue.main.async {
-                                        self.tableView.reloadData()
-                                    }
-                                }
-                            }
-                        }
-                    }
+        API.shared.document { (snapShot) in
+            for doc in snapShot{
+                let data = doc.data()
+                guard let body = data["mesagee"] as? String else {return}
+                let newMessage = CurrentUserMessage(body: body)
+                self.messages.append(newMessage)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }
         }
     }
@@ -91,59 +75,43 @@ extension CurrentUserWriteDataViewController: UITableViewDataSource{
 }
 extension CurrentUserWriteDataViewController: SwipeTableViewCellDelegate{
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-    
+        
         let message = messages[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "LikeMessageCell", for: indexPath) as! LikeMessageTableViewCell
         
         switch orientation {
-            
-            case .right:
-                
-                let deleteAction = SwipeAction(style: .default, title: nil, handler: {
-                    action, indexPath in
-                    DispatchQueue.main.async {
-                        if let currentEmail = Auth.auth().currentUser?.email{
-                            self.db.collection("users")
-                                .whereField("email", isEqualTo: currentEmail)
-                                .addSnapshotListener(){(querySnapshot, err) in
-                                if let err = err {
-                                    print(err)
-                                }else{
-                                   
-                                    if let snapshotDocuments = querySnapshot?.documents{
-                                        for doc in snapshotDocuments{
-                                            let data = doc.data()
-                                            if (data["mesagee"] as! String == message.body){
-                                                doc.reference.delete()
-                                                self.view.makeToast("삭제완료")
-                                            }
-                                        }
-                                        DispatchQueue.main.async() {
-                                            self.navigationController?.popViewController(animated: true)
-                                        }
-                                    }else{
-                                        self.view.makeToast("fail")
-                                        
-                                    }
-                                }
-                            }
+        
+        case .right:
+            // API class 에 클로져로 선언하고 데이터를 가져와봄! (다른 메소드) (가져오는 데이터 MessgeData메소드랑 다름)
+            let deleteAction = SwipeAction(style: .default, title: nil, handler: {
+                action, indexPath in
+                API.shared.document { (snapShot) in
+                    for doc in snapShot {
+                        let data = doc.data()
+                        if (data["mesagee"] as! String == message.body){
+                            doc.reference.delete()
+                            self.view.makeToast("삭제완료")
                         }
                     }
-                })
+                    DispatchQueue.main.async() {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+            })
             
-                deleteAction.title = "삭제하기"
-                deleteAction.image = UIImage(systemName: "trash.fill")
-                deleteAction.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
-                
-                return [deleteAction]
-  
-  
+            deleteAction.title = "삭제하기"
+            deleteAction.image = UIImage(systemName: "trash.fill")
+            deleteAction.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+            
+            return [deleteAction]
+            
+            
         case .left:
             let thumbsUpAction = SwipeAction(style: .default, title: nil, handler: {
                 action, indexPath in
-
-
-
+                
+                
+                
                 let activityVC = UIActivityViewController(activityItems: [message.body], applicationActivities: nil)
                 activityVC.popoverPresentationController?.sourceView = self.view
                 self.present(activityVC, animated: true, completion: nil)
